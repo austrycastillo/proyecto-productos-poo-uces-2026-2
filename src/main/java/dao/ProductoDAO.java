@@ -13,5 +13,7 @@ public interface ProductoDAO {
 
 	Optional<Producto> buscarPorId(int id) throws SQLException;
 
+	boolean actualizar(Producto producto) throws SQLException;
+
 	boolean eliminar(int id) throws SQLException;
 }
