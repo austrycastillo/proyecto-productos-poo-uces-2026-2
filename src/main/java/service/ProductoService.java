@@ -48,6 +48,29 @@ public class ProductoService {
 		return productoDAO.buscarPorId(id);
 	}
 
+	public boolean editarProducto(int id, String nombre, double precio, int stock) throws SQLException {
+
+		if (id <= 0) {
+			throw new IllegalArgumentException("El ID debe ser mayor que cero.");
+		}
+
+		if (nombre == null || nombre.isBlank()) {
+			throw new IllegalArgumentException("El nombre es obligatorio.");
+		}
+
+		if (!Double.isFinite(precio) || precio <= 0) {
+			throw new IllegalArgumentException("El precio debe ser mayor que cero.");
+		}
+
+		if (stock < 0) {
+			throw new IllegalArgumentException("El stock no puede ser negativo.");
+		}
+
+		Producto producto = new Producto(id, nombre.trim(), precio, stock);
+
+		return productoDAO.actualizar(producto);
+	}
+
 	public boolean eliminarProducto(int id) throws SQLException {
 
 		if (id <= 0) {
