@@ -48,6 +48,8 @@ public class App {
 
 						case 4 -> eliminarProducto(scanner, productoService);
 
+						case 5 -> editarProducto(scanner, productoService);
+
 						case 0 -> System.out.println("¡Hasta la próxima!");
 
 						default -> System.out.println("Opción inválida.");
@@ -88,6 +90,7 @@ public class App {
 		System.out.println("2. Listar productos");
 		System.out.println("3. Buscar producto por ID");
 		System.out.println("4. Eliminar producto");
+		System.out.println("5. Editar producto");
 		System.out.println("0. Salir");
 	}
 
@@ -138,6 +141,33 @@ public class App {
 
 		if (eliminado) {
 			System.out.println("Producto eliminado correctamente.");
+		} else {
+			System.out.println("No existe un producto con ese ID.");
+		}
+	}
+
+	private static void editarProducto(Scanner scanner, ProductoService service) throws SQLException {
+
+		System.out.println("\n--- Editar producto ---");
+
+		int id = leerEntero(scanner, "ID del producto a editar: ");
+		Optional<Producto> producto = service.obtenerProductoPorId(id);
+
+		if (producto.isEmpty()) {
+			System.out.println("No existe un producto con ese ID.");
+			return;
+		}
+
+		System.out.println("Producto actual: " + producto.get());
+
+		System.out.print("Nuevo nombre: ");
+		String nombre = scanner.nextLine();
+
+		double precio = leerDouble(scanner, "Nuevo precio: ");
+		int stock = leerEntero(scanner, "Nuevo stock: ");
+
+		if (service.editarProducto(id, nombre, precio, stock)) {
+			System.out.println("Producto actualizado correctamente.");
 		} else {
 			System.out.println("No existe un producto con ese ID.");
 		}
